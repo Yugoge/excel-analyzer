@@ -1,0 +1,35 @@
+# Excel Analyzer .gitignore
+
+# Dependencies
+node_modules/
+
+# Test files (keep demo file)
+# *.xlsx
+# *.xls
+
+# Exports
+*.json
+!package.json
+!package-lock.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage
+coverage/
+.nyc_output/

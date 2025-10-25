@@ -1,0 +1,21 @@
+{
+  "name": "excel-analyzer",
+  "version": "1.0.0",
+  "description": "Powerful Excel analyzer for financial modeling - powered by SheetJS",
+  "main": "analyze-excel.js",
+  "bin": {
+    "excel-analyzer": "./analyze-excel.js",
+    "analyze-excel": "./analyze-excel.js",
+    "create-excel": "./create-excel.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["excel", "xlsx", "financial", "modeling", "analyzer", "sheetjs"],
+  "author": "Claude Code",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}
