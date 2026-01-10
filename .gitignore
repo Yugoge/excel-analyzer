@@ -33,3 +33,6 @@ Thumbs.db
 # Coverage
 coverage/
 .nyc_output/
+logs/
+session-env/
+systemd/
