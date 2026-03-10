@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "PLAYWRIGHT_MCP_SANDBOX": "false"
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "SlashCommand",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(tree:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Write(src/**)",
+      "Write(tests/**)",
+      "Write(docs/**)",
+      "Write(output/**)",
+      "Write(temp/**)",
+      "Write(examples/**)",
+      "Edit(src/**)",
+      "Edit(tests/**)",
+      "Edit(docs/**)",
+      "Edit(*.py)",
+      "Edit(*.md)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(sudo:*)",
+      "Bash(shutdown:*)",
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(rm -rf:*)",
+      "Write(.claude/**)",
+      "Edit(.claude/**)",
+      "Write(requirements.txt)",
+      "Edit(requirements.txt)",
+      "Write(setup.py)",
+      "Edit(setup.py)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/scripts/hooks/hook-todo-state-tracker.py",
+            "stdin_json": true,
+            "on_error": "ignore"
+          },
+          {
+            "type": "command",
+            "stdin_json": true,
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/scripts/hooks/hook-enforce-todo-count.py"
+          },
+          {
+            "type": "command",
+            "stdin_json": true,
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/scripts/hooks/hook-enforce-step-sequence.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/smart-checkpoint.sh",
+            "on_error": "ignore"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/scripts/hooks/hook-enforce-workflow.py",
+            "stdin_json": true,
+            "on_error": "ignore"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/scripts/hooks/hook-precheck-workflow.py",
+            "stdin_json": true,
+            "on_error": "ignore"
+          }
+        ]
+      }
+    ]
+  }
+}
