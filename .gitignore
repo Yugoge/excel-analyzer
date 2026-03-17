@@ -36,3 +36,6 @@ coverage/
 logs/
 session-env/
 systemd/
+
+# Workflow state (transient, per-session)
+.claude/workflow-current.json
