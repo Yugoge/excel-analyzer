@@ -103,9 +103,12 @@ def main():
                     pass
                 # Only mark todo_acknowledged=True when count is correct
                 # If count is wrong, count hook will set todo_acknowledged=False + lock_reason
+                # Re-read bookmark to avoid clobbering updates from other PostToolUse hooks
+                # (e.g. posttool-todo-sequence.py may have updated last_todos concurrently)
                 try:
-                    bookmark_state['todo_acknowledged'] = True
-                    bookmark_path.write_text(json.dumps(bookmark_state, ensure_ascii=False))
+                    fresh_state = json.loads(bookmark_path.read_text())
+                    fresh_state['todo_acknowledged'] = True
+                    bookmark_path.write_text(json.dumps(fresh_state, ensure_ascii=False))
                 except Exception:
                     pass
 
