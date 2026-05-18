@@ -39,3 +39,6 @@ systemd/
 
 # Workflow state (transient, per-session)
 .claude/workflow-current.json
+
+# Local Claude settings (machine-specific, not for version control)
+.claude/settings.local.json
